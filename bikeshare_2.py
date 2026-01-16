@@ -1,7 +1,7 @@
 import time
 import pandas as pd
 
-
+# Constants
 CITY_DATA = {
     "chicago": "chicago.csv",
     "new york": "new_york_city.csv",
@@ -17,6 +17,7 @@ DAYS = ["sunday", "monday", "tuesday", "wednesday",
         "thursday", "friday", "saturday"]
 
 
+# Input Handling
 def get_choice(prompt, valid_options):
     while True:
         choice = input(prompt).lower()
@@ -54,6 +55,7 @@ def get_filters():
     print("-" * 40)
     return city, month, day
 
+# Data Loading
 def load_data(city, month, day):
     df = pd.read_csv(CITY_DATA[city])
     df["Start Time"] = pd.to_datetime(df["Start Time"])
@@ -69,7 +71,7 @@ def load_data(city, month, day):
 
     return df
 
-
+# Statistics
 def time_stats(df):
     print("\nMost Popular Times of Travel\n")
     start = time.time()
@@ -124,7 +126,7 @@ def user_stats(df, city):
     print(f"\nCompleted in {time.time() - start:.2f} seconds")
     print("-" * 40)
 
-
+# Raw data display
 def show_raw_data(df):
     i = 0
     while True:
@@ -134,7 +136,7 @@ def show_raw_data(df):
         print(df.iloc[i:i+5])
         i += 5
 
-
+# Main Loop
 def main():
     while True:
         city, month, day = get_filters()
