@@ -16,6 +16,7 @@ MONTHS = {
 DAYS = ["sunday", "monday", "tuesday", "wednesday",
         "thursday", "friday", "saturday"]
 
+SEPARATOR = "-" * 40
 
 def get_choice(prompt, valid_options):
     while True:
@@ -52,7 +53,7 @@ def get_filters():
             DAYS + ["all"]
         )
 
-    print("-" * 40)
+    print(SEPARATOR)
     return city, month, day
 
 def load_data(city, month, day):
@@ -73,7 +74,7 @@ def load_data(city, month, day):
 
 def print_completion(start):
     print(f"\nCompleted in {time.time() - start:.2f} seconds")
-    print("-" * 40)
+    print(SEPARATOR)
 
 
 def time_stats(df):
