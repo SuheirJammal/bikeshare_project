@@ -16,6 +16,7 @@ MONTHS = {
 DAYS = ["sunday", "monday", "tuesday", "wednesday",
         "thursday", "friday", "saturday"]
 
+SEPARATOR = "-" * 40
 
 # Input Handling
 def get_choice(prompt, valid_options):
@@ -24,6 +25,7 @@ def get_choice(prompt, valid_options):
         if choice in valid_options:
             return choice
         print("Invalid input, please try again.")
+
 
 def get_filters():
     print("Hello! Let's explore some US bikeshare data!")
@@ -52,14 +54,15 @@ def get_filters():
             DAYS + ["all"]
         )
 
-    print("-" * 40)
+    print(SEPARATOR)
     return city, month, day
 
 # Data Loading
 def load_data(city, month, day):
-    df = pd.read_csv(CITY_DATA[city])
-    df["Start Time"] = pd.to_datetime(df["Start Time"])
 
+    df = pd.read_csv(CITY_DATA[city])
+
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["month"] = df["Start Time"].dt.month
     df["day_of_week"] = df["Start Time"].dt.day_name()
 
@@ -72,6 +75,11 @@ def load_data(city, month, day):
     return df
 
 # Statistics
+def print_completion(start):
+    print(f"\nCompleted in {time.time() - start:.2f} seconds")
+    print(SEPARATOR)
+
+
 def time_stats(df):
     print("\nMost Popular Times of Travel\n")
     start = time.time()
@@ -80,8 +88,8 @@ def time_stats(df):
     print("Most Common Day:", df["day_of_week"].mode()[0])
     print("Most Common Hour:", df["Start Time"].dt.hour.mode()[0])
 
-    print(f"\nCompleted in {time.time() - start:.2f} seconds")
-    print("-" * 40)
+    print_completion(start)
+
 
 def station_stats(df):
     print("\nMost Popular Stations and Trips\n")
@@ -93,8 +101,8 @@ def station_stats(df):
     trip = (df["Start Station"] + " → " + df["End Station"]).mode()[0]
     print("Most Common Trip:", trip)
 
-    print(f"\nCompleted in {time.time() - start:.2f} seconds")
-    print("-" * 40)
+    print_completion(start)
+
 
 def trip_duration_stats(df):
     print("\nTrip Duration Stats\n")
@@ -106,8 +114,8 @@ def trip_duration_stats(df):
     print("Total Travel Time (sec):", total)
     print("Average Travel Time (sec):", round(avg))
 
-    print(f"\nCompleted in {time.time() - start:.2f} seconds")
-    print("-" * 40)
+    print_completion(start)
+
 
 def user_stats(df, city):
     print("\nUser Stats\n")
@@ -122,9 +130,8 @@ def user_stats(df, city):
         print("\nOldest Birth Year:", int(df["Birth Year"].min()))
         print("Youngest Birth Year:", int(df["Birth Year"].max()))
         print("Most Common Birth Year:", int(df["Birth Year"].mode()[0]))
+    print_completion(start)
 
-    print(f"\nCompleted in {time.time() - start:.2f} seconds")
-    print("-" * 40)
 
 # Raw data display
 def show_raw_data(df):
